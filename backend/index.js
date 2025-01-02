@@ -15,17 +15,19 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(urlencoded({extended:true}));
-const corsOption ={
-    origin:'http://localhost:5173',
-    Credential: true,
-}
+
+app.use(cors({
+    origin: 'http://localhost:5173', // Frontend URL
+    credentials: true,              // Enable cookies or authentication headers
+}));
+
 app.get('/', (req, res)=>{
     res.send('server is running')
 });
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/post', postRouter);
 app.use('/api/v1/message', messageRouter);
-app.use(cors(corsOption));
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, ()=>{
