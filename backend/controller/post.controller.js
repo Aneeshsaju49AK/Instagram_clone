@@ -17,7 +17,7 @@ export const addNewPost = async (req, res) => {
         }
         const oprimizedImageBuffer = await sharp(image.buffer).resize({ width: 800, height: 800 }).toFormat('jpeg', { quality: 80 }).toBuffer();
         const fileUri = `data:image/jpeg;base64,${oprimizedImageBuffer.toString('base64')}`;
-        console.log(fileUri);
+        
 
         const cloudRes = await cloudinary.uploader.upload(fileUri);
         const newPost = await Post.create({
@@ -119,7 +119,7 @@ export const addComment = async (req, res) => {
         post.comments.push(newComment._id);
         await post.save();
 
-        return res.status(201).json({ success: true, data: newComment });
+        return res.status(201).json({ success: true, newComment , message: "comment added"});
 
     } catch (error) {
         console.log(error);
